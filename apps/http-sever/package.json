@@ -9,11 +9,16 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@repo/typescript-config": "workspace:*",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2"
+  },
+
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@repo/be-common": "workspace:*",
+    "@repo/common": "workspace:*"
   },
   "keywords": [],
   "author": "",

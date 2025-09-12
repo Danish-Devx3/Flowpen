@@ -20,9 +20,6 @@ importers:
 
   apps/http-sever:
     dependencies:
-      '@repo/typescript-config':
-        specifier: workspace:*
-        version: link:../../packages/typescript-config
       '@types/express':
         specifier: ^5.0.3
         version: 5.0.3
@@ -35,6 +32,16 @@ importers:
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
+    devDependencies:
+      '@repo/be-common':
+        specifier: workspace:*
+        version: link:../../packages/be-common
+      '@repo/common':
+        specifier: workspace:*
+        version: link:../../packages/common
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../packages/typescript-config
 
   apps/web:
     dependencies:
@@ -90,6 +97,26 @@ importers:
       ws:
         specifier: ^8.18.3
         version: 8.18.3
+    devDependencies:
+      '@repo/be-common':
+        specifier: workspace:*
+        version: link:../../packages/be-common
+
+  packages/be-common:
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+
+  packages/common:
+    dependencies:
+      zod:
+        specifier: ^4.1.7
+        version: 4.1.7
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
 
   packages/eslint-config:
     devDependencies:
@@ -1729,6 +1756,9 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  zod@4.1.7:
+    resolution: {integrity: sha512-6qi6UYyzAl7W9uV29KvcSFXqK4QCYNYUz2YASPNBWpJE1RY6R1nArmmFPgGY/CBYWzpeMw3EOER+DR9a05O4IA==}
 
 snapshots:
 
@@ -3576,3 +3606,5 @@ snapshots:
   ws@8.18.3: {}
 
   yocto-queue@0.1.0: {}
+
+  zod@4.1.7: {}
