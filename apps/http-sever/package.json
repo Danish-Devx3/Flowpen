@@ -18,7 +18,8 @@
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@repo/be-common": "workspace:*",
-    "@repo/common": "workspace:*"
+    "@repo/common": "workspace:*",
+    "@repo/prisma-db" : "workspace:*"
   },
   "keywords": [],
   "author": "",

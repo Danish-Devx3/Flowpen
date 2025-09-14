@@ -1,8 +1,9 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// docker run --name postgres -e POSTGRES_PASSWORD=mysecretpassword -v pgdata:/var/lib/postgresql/data -p 5432:5432 -d postgres
 
 generator client {
   provider = "prisma-client-js"
@@ -18,7 +19,7 @@ model User {
   email    String @unique
   password String
   name     String @unique
-  photo    String
+  photo    String?
   rooms    Room[]
   chats    Chat[]
 }
