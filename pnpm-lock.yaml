@@ -104,6 +104,9 @@ importers:
       '@repo/be-common':
         specifier: workspace:*
         version: link:../../packages/be-common
+      '@repo/prisma-db':
+        specifier: workspace:*
+        version: link:../../packages/db
 
   packages/be-common:
     devDependencies:
