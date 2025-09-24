@@ -9,10 +9,12 @@ import {
 } from "@repo/common/types";
 
 import { prisma } from "@repo/prisma-db/client";
+import cors from "cors"
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.post("/signup", async (req, res) => {
   const parseData = CreateUserSchema.safeParse(req.body);
