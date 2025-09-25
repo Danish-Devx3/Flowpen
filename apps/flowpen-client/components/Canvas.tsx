@@ -2,8 +2,9 @@ import { initDraw } from "@/draw";
 import React, { useEffect, useRef, useState } from "react";
 import IconButton from "./IconButton";
 import { Circle, Pencil, RectangleHorizontalIcon } from "lucide-react";
+import { Game } from "@/draw/Game";
 
-type Shape = "circle" | "rect" | "pencil";
+export type Tool = "circle" | "rect" | "pencil";
 
 export default function Canvas({
   roomId,
@@ -13,19 +14,24 @@ export default function Canvas({
   socket: WebSocket;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [selectedTool, setSelectedTool] = useState<Shape>("circle");
+  const [game, setGame] = useState<Game>()
+  const [selectedTool, setSelectedTool] = useState<Tool>("circle");
+  
 
   useEffect(()=>{
-
-    //@ts-ignore
-    window.selectedTool = selectedTool;
-  })
+    game?.setTool(selectedTool)
+  }, [selectedTool, game])
   
   useEffect(() => {
     if (canvasRef.current) {
-      initDraw(canvasRef.current, roomId, socket);
+      const g = new Game(canvasRef.current, socket, roomId);
+      setGame(g)
+      return () => {
+        g.destroy()
+      }
     }
-  });
+
+  }, [canvasRef]);
 
   return (
     <div className="h-[100vh] overflow-hidden">
@@ -43,8 +49,8 @@ function Topbar({
   selectedTool,
   setSelectedTool,
 }: {
-  selectedTool: Shape;
-  setSelectedTool: (e: Shape) => void;
+  selectedTool: Tool;
+  setSelectedTool: (e: Tool) => void;
 }) {
   return (
     <div className="fixed top-10 left-30">
