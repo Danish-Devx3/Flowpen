@@ -4,7 +4,7 @@ CREATE TABLE "public"."User" (
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "photo" TEXT NOT NULL,
+    "photo" TEXT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -31,9 +31,6 @@ CREATE TABLE "public"."Chat" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "public"."User"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_name_key" ON "public"."User"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Room_slug_key" ON "public"."Room"("slug");
