@@ -1,7 +1,8 @@
 import express from "express";
+import fs from "fs";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "@repo/be-common/config";
-import { middleware } from "./middleware";
+import cookieParser from "cookie-parser";
+import { middleware } from "./middlewares/authMiddleware";
 import {
   CreateRoomSchema,
   CreateUserSchema,
@@ -9,77 +10,20 @@ import {
 } from "@repo/common/types";
 
 import { prisma } from "@repo/prisma-db/client";
+import userRoute from "./routes/userRoute";
 import cors from "cors"
 
 const app = express();
-
+app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3002",
+  credentials: true,
+}));
 
-app.post("/signup", async (req, res) => {
-  const parseData = CreateUserSchema.safeParse(req.body);
-  if (!parseData.success) {
-    res.status(400).json({
-      message: "Invalid data",
-    });
-    return;
-  }
+app.use("/", userRoute);
 
-  try {
-    const user = await prisma.user.create({
-      data: {
-        email: parseData.data.username,
-        password: parseData.data.password,
-        name: parseData.data.name,
-      },
-    });
-    res.json({
-      userId: user.id,
-    });
-  } catch (error) {
-    res.status(411).json({
-      message: "User already exists",
-    });
-  }
 
-  res.json({
-    userid: 1,
-  });
-});
-
-app.post("/signin", async (req, res) => {
-  const parseData = SigninSchema.safeParse(req.body);
-
-  if (!parseData.success) {
-    res.status(400).json({
-      message: "Invalid data",
-    });
-    return;
-  }
-
-  const user = await prisma.user.findFirst({
-    where: {
-      email: parseData.data.username,
-      password: parseData.data.password,
-    },
-  });
-
-  if (!user) {
-    res.status(403).json({
-      message: "Not Authorized",
-    });
-    return;
-  }
-
-  const token = jwt.sign(
-    {
-      userid: user.id,
-    },
-    JWT_SECRET
-  );
-
-  res.json({ token });
-});
 
 app.post("/room", middleware, async (req, res) => {
   const parseData = CreateRoomSchema.safeParse(req.body);
