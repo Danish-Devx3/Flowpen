@@ -1,4 +1,4 @@
-import { initDraw } from "@/draw";
+
 import React, { useEffect, useRef, useState } from "react";
 import IconButton from "./IconButton";
 import { Circle, Pencil, RectangleHorizontalIcon } from "lucide-react";
@@ -21,11 +21,12 @@ export default function Canvas({
   useEffect(()=>{
     game?.setTool(selectedTool)
   }, [selectedTool, game])
-  
+
   useEffect(() => {
     if (canvasRef.current) {
       const g = new Game(canvasRef.current, socket, roomId);
       setGame(g)
+      g.init()
       return () => {
         g.destroy()
       }
@@ -57,7 +58,7 @@ function Topbar({
       <div className="flex gap-4">
         <IconButton
           activated={selectedTool === "pencil"}
-          icon={<Pencil />}
+          icon={<img className="invert" width="20" height="20" src="https://img.icons8.com/ios-filled/50/line.png" alt="line"/>}
           onClick={() => {
             setSelectedTool("pencil");
           }}

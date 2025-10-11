@@ -93,6 +93,13 @@ export class Game {
         );
         this.ctx.stroke();
         this.ctx.closePath();
+      } else if(shape.type === "pencil"){
+        this.ctx.beginPath();
+        this.ctx.moveTo(shape.startX, shape.startY);
+        this.ctx.lineTo(shape.endX, shape.endY);
+        this.ctx.stroke();
+        this.ctx.closePath();
+        this.ctx.strokeStyle = "white";
       }
     });
   }
@@ -101,9 +108,9 @@ export class Game {
     this.clicked = true;
     this.startX = e.clientX;
     this.startY = e.clientY;
-  }
+  };
 
-  mouseUpHandler=(e: MouseEvent)=> {
+  mouseUpHandler = (e: MouseEvent) => {
     this.clicked = false;
     const width = e.clientX - this.startX;
     const height = e.clientY - this.startY;
@@ -126,6 +133,14 @@ export class Game {
         centerX: this.startX + radius,
         centerY: this.startY + radius,
       };
+    } else if (this.selectedTool === "pencil") {
+      shape = {
+        type: "pencil",
+        startX: this.startX,
+        startY: this.startY,
+        endX: e.clientX,
+        endY: e.clientY,
+      }
     }
 
     if (!shape) return;
@@ -138,9 +153,9 @@ export class Game {
         message: JSON.stringify({ shape }),
       })
     );
-  }
+  };
 
-  mouseMoveHandler=(e: MouseEvent)=> {
+  mouseMoveHandler = (e: MouseEvent) => {
     if (this.clicked) {
       const width = e.clientX - this.startX;
       const height = e.clientY - this.startY;
@@ -158,9 +173,16 @@ export class Game {
         this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
         this.ctx.stroke();
         this.ctx.closePath();
+      } else if (this.selectedTool === "pencil") {
+        this.ctx.beginPath();
+        this.ctx.moveTo(this.startX, this.startY);
+        this.ctx.lineTo(e.clientX, e.clientY);
+        this.ctx.stroke();
+        this.ctx.closePath();
+        this.ctx.strokeStyle = "white";
       }
     }
-  }
+  };
 
   initMouseHandler() {
     this.canvas.addEventListener("mousedown", this.mouseDownHandler);
